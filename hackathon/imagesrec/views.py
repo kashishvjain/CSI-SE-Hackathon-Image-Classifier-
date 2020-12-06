@@ -4,11 +4,27 @@ from .models import otherDetails
 from django.contrib import messages
 from django.contrib import messages
 from django.views.generic.edit import FormView
-
+from torchvision import datasets, models, transforms
+import torch
 from .forms import img
+from .model import *
+import torch
+from django.contrib.staticfiles.storage import staticfiles_storage
 
-
+url = staticfiles_storage.path('vgg_model2')
+print(url)
+# vgg16 = models.vgg16(pretrained=True)
+# print(vgg16)
+# state_dict = torch.load("checkpoint.pth")
+# print("Done")
+# vgg16.load_state_dict(state_dict)
+# print("finally done")
+model1=torch.load(url)
+print("Done")
+print(model1)
 def index(request):
+    print("In view function")
+    print("Successfull")
     return render(request, 'home.html')
 
 def backend(request):
