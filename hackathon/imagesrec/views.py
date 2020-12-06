@@ -28,7 +28,7 @@ def backend(request):
     test_dir ='media/imagesrec/'
     #print(len(os.listdir(tp_dir)))
     # test_dir='imagesrec/images'
-    data_transform = transforms.Compose([transforms.RandomResizedCrop(224), 
+    data_transform = transforms.Compose([transforms.RandomResizedCrop(224),
                                       transforms.ToTensor()])
     test_data = datasets.ImageFolder(test_dir, transform=data_transform)
     batch_size = len(os.listdir(test_dir+'images'))
@@ -36,7 +36,7 @@ def backend(request):
     num_workers=0
 
 # prepare data loaders
-    test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, 
+    test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,
                                           num_workers=num_workers, shuffle=True)
     dataiter = iter(test_loader)
     images, labels = dataiter.next()
@@ -47,11 +47,14 @@ def backend(request):
     _, preds_tensor = torch.max(output, 1)
     preds = np.squeeze(preds_tensor.numpy())
     classes = ['buildings', 'forest', 'glacier', 'mountain', 'sea','street']
+    prediction = []
     for pred in preds:
+        prediction.append(classes[pred])
         print(classes[pred])
+    print(os.listdir(test_dir+'images'))
     
-    return HttpResponse("Hello there")
-    
+    return render(request,"backend.html",{ 'predict':prediction,'tags':os.listdir(test_dir+'images') })
+
 def bulk(request):
     if request.method == "POST":
         my_file = request.FILES.get("file")
