@@ -13,9 +13,11 @@ import torch
 import torchvision
 import matplotlib.pyplot as plt
 import seaborn as sns
+counter1 = 1
 
 import time
 images_id=[]
+prediction = []
 #from .model import *
 import torch
 from django.conf import settings
@@ -28,6 +30,11 @@ def index(request):
     return render(request, 'home.html')
 
 def backend(request):
+    global prediction
+    if request.method == "POST":
+        print('HII')
+        print(request.POST['tag'])
+        return redirect("/backend")
     print("Here in backend")
     test_dir ='media/imagesrec/'
     #print(len(os.listdir(tp_dir)))
@@ -54,7 +61,7 @@ def backend(request):
     # convert output probabilities to predicted class
     _, preds_tensor = torch.max(output, 1)
     preds = np.squeeze(preds_tensor.numpy())
-    prediction = []
+
     for pred in preds:
         prediction.append(classes[pred])
         print(classes[pred])
@@ -70,13 +77,14 @@ def backend(request):
 
 def plotter(img_direc,prob,test_dir):
     plt.bar(classes,prob);
-    plt.xlabel('Classes')  
+    plt.xlabel('Classes')
     plt.ylabel('Relativistic Probablities')
     path_prob= test_dir+'images/'+img_direc[:-4] + '_p.jpg'
     print(path_prob)
     plt.savefig(path_prob)
     plt.cla()
-        
+    plt.close()
+
 def bulk(request):
     if request.method == "POST":
         my_file = request.FILES.get("file")
