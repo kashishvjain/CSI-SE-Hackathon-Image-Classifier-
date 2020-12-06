@@ -19,12 +19,13 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 url = staticfiles_storage.path('vgg_model2')
 vgg16=torch.load(url)
+classes = ['buildings', 'forest', 'glacier', 'mountain', 'sea','street']
 #print(model1)
 def index(request):
     return render(request, 'home.html')
 
 def backend(request):
-    #print("Here in backend")
+    print("Here in backend")
     test_dir ='media/imagesrec/'
     #print(len(os.listdir(tp_dir)))
     # test_dir='imagesrec/images'
@@ -37,23 +38,30 @@ def backend(request):
 
 # prepare data loaders
     test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,
-                                          num_workers=num_workers, shuffle=True)
+                                          num_workers=num_workers, shuffle=False)
     dataiter = iter(test_loader)
     images, labels = dataiter.next()
     images.numpy()
     # get sample outputs
     output = vgg16(images)
+    print(output)
+    probablities=torch.exp(output)/(torch.sum(torch.exp(output),1)).reshape(-1,1)
+    probablities=probablities.numpy()
+    print(probablities)
     # convert output probabilities to predicted class
     _, preds_tensor = torch.max(output, 1)
     preds = np.squeeze(preds_tensor.numpy())
-    classes = ['buildings', 'forest', 'glacier', 'mountain', 'sea','street']
     prediction = []
     for pred in preds:
         prediction.append(classes[pred])
         print(classes[pred])
-    print(os.listdir(test_dir+'images'))
-    
-    return render(request,"backend.html",{ 'predict':prediction,'tags':os.listdir(test_dir+'images') })
+    img_directory=os.listdir(test_dir+'images')
+    print(prediction)
+    img_with_labels={}
+    for img,label in zip(img_directory,prediction):
+        img_with_labels[img]=label
+   # return render(request,"backend.html",{'predict':prediction,'tags':os.listdir(test_dir+'images') })
+    return render(request,"backend.html",{'predict':img_with_labels})
 
 def bulk(request):
     if request.method == "POST":

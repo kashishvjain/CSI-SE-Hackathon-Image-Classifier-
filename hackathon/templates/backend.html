@@ -43,15 +43,15 @@
             
 
             <div class="row">
-            {% for pred in predict %}
+            {% for img,pred in predict.items %}
                 <!--=============== COLUMN-1 ==================-->
                 <div class="col-md-4 col-sm-4 res-common-bottom-1">
                     <div class="left image-bottom">
-                        <img src="/media/{{i.xyz.image}}" alt="image" class="img-responsive" />
+                        <img src="/media/imagesrec/images/{{img}}" alt="image" class="img-responsive" />
                     </div>
                     <h4 class="left h4-bottom"><a href="#">{{pred}}</a></h4>
-					 <p class="left date"><a href="#">May 14, 2017</a></p>
-                    <p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pharetra efficitur diam, vel sagittis ipsum. Curabitur eleifend, risus id sollicitudin</p>
+					 <!-- <p class="left date"><a href="#">May 14, 2017</a></p>
+                    <p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pharetra efficitur diam, vel sagittis ipsum. Curabitur eleifend, risus id sollicitudin</p> -->
                 </div>
             {% endfor %}
 
