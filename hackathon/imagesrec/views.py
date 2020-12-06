@@ -41,6 +41,7 @@ def backend(request):
         print("PRINTING prediction")
         error_prediction.append([ind,val])
         print(error_prediction)
+        messages.success(request,"Request successfully submitted. Sent for Retraining!")
         return redirect("/backend")
 
     print("Here in backend")

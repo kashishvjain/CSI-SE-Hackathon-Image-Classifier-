@@ -12,7 +12,7 @@
     <title>Image Recognisation</title>
     <!-- FAVICON LINK -->
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- BOOTSTRAP -->
     <link rel="stylesheet" type="text/css" href="{% static 'imagesrec/css/vendor/bootstrap.min.css' %}">
 
@@ -36,25 +36,81 @@
 
 <body data-spy="scroll" data-offset="120">
 
+  <!--================================= HEADER-DEFAULT START =============================================-->
+  <div class="container-fluid header-form-bgimage-1 bgimage-property parallax  header-section-space-form-1" id="home">
+      <div class="container">
+          <div class="col-md-12 column-center no-padding white-text">
+              <div class="row">
+                  <div class="col-md-7 col-sm-6 res-common-bottom-1">
+                      <div class="header-form-heading-top">
+                          <p style="color:white;background:black; width:160px" class="left header-fit header-fit-bottom ls">Team Confusion</p>
+                          <h1 style="color:white;background:black" class="left header-head-bottom"><span>TRANSFORMING</span> IMAGE</h1>
+                          <h1 style="color:white;background:black" class="left header-head-bottom"><span>RECOGNISION</span> SYSTEM</h1>
+
+                          <div class="left">
+                          </div>
+                      </div>
+                  </div>
+
+
+
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--================================= HEADER-DEFAULT END =============================================-->
+
 
 
     <!--================================= LATEST NEWS START =============================================-->
+    <div class="container">
+      {% if messages %}
+    <div id="message"  class="alert-dismissible fade show alert alert-success" role="alert">
+      <ul  id="inner-message" class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
     <section class="container-fluid section-space section-bg-1 news_common">
         <div class="container">
 
 
             <div class="row">
             {% for img,pred in predict.items %}
+            <div class="col-md-4 col-sm-4 res-common-bottom-1" style="padding-top:20px;">
+              <div class="card " style="width: 30rem;">
+                <img src="/media/imagesrec/images/{{img}}.jpg" class="card-img-top" alt="...">
+                <img src="/media/imagesrec/images/{{img}}_p.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{pred}}</h5>
+                    <p class="card-text"><form action = '/backend' method = 'POST'>
+                            {% csrf_token %}
+                        <label for="cars">If Mislabelled:</label>
 
+
+                        <select name="tag" id="{{img}}">
+                            <option value="{{img}} glacier">Glacier</option>
+                            <option value="{{img}} mountain">Mountain</option>
+                            <option value="{{img}} street">Street</option>
+                            <option value="{{img}} sea">Sea</option>
+                            <option value="{{img}} buildings">Buildings</option>
+                            <option value="{{img}} forest">Forest</option>
+                        </select>
+                        <div style='padding-top:40px;'>
+                            <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+                        </div>
+                        </form></p>
+
+                  </div>
+                </div>
+              </div>
                 <!--=============== COLUMN-1 ==================-->
-                <div class="col-md-4 col-sm-4 res-common-bottom-1 " >
-                    <div class="left image-bottom card">
-                        <img src="/media/imagesrec/images/{{img}}.jpg" alt="image" class="img-responsive" />
-                    </div>
+                <!-- <div class="col-md-4 col-sm-4 res-common-bottom-1 " >
+
                     <h4 class="left h4-bottom"><a href="#">{{pred}}</a></h4>
-                    <div class="left image-bottom">
-                        <img src="/media/imagesrec/images/{{img}}_p.jpg" alt="image" class="img-responsive" />
-                    </div>
+
                     <form action = '/backend' method = 'POST'>
                             {% csrf_token %}
                         <label for="cars">If Mislabelled:</label>
@@ -75,13 +131,15 @@
 
 					 <!-- <p class="left date"><a href="#">May 14, 2017</a></p>
                     <p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pharetra efficitur diam, vel sagittis ipsum. Curabitur eleifend, risus id sollicitudin</p> -->
-                </div>
+                <!-- </div> -->
 
             {% endfor %}
 
 
             </div>
+            <button type="button" class="btn btn-warning " style="margin-top:20px;">Recalibration</button>
         </div>
+      </div>
     </section>
     <!--================================= LATEST NEWS END =============================================-->
 
@@ -116,6 +174,7 @@
 
         <!-- CUSTOM -->
         <script type="text/javascript" src="{% static 'imagesrec/js/custom/custom.js' %}"></script>
+
     </body>
 
 
