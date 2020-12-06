@@ -51,6 +51,50 @@
                           </div>
                       </div>
                   </div>
+                  <div class="col-md-5 col-sm-6">
+                        <div class="contact-div header-contact-form header-contact-bg">
+                            <form class="contact-form" method="POST" action="/training">
+                              {% csrf_token %}
+                                <div class="clearfix">
+                                    <div class="header-form-heading-bg">
+                                        <h4 class="center">Re-Training!!</h4>
+                                    </div>
+                                    <div class="header-contact-bg-pad">
+                                        <!--================= NAME INPUT BOX HERE ====================-->
+                                        <div class="form-div form-bottom-1">
+
+                                            <input class="form-control form-text" type="number" name="name" value="" placeholder="Enter Epochs" required />
+                                        </div>
+
+                                        <!--================= EMAIL INPUT BOX HERE ====================-->
+                                        <div class="form-div form-bottom-1">
+
+                                            <input class="form-control form-text" type="number" name="name" value="" placeholder="Enter Layers" required />
+                                        </div>
+
+                                        <!--================= PHONE-NUMBER INPUT BOX HERE ====================-->
+                                        <div class="form-div form-bottom-1">
+
+                                            <input class="form-control form-text" type="number" step="0.0001" name="name" value="" placeholder="Enter Learning Rate" required />
+                                        </div>
+
+
+
+                                        <!--============= SUCESSS AND FAILURE MESSAGE DISPLAY HERE ========-->
+                                        <div class="left"> <span class="form-success sucessMessage  form-error-top"> </span> <span class="form-failure failMessage  form-error-top"> </span>
+                                        </div>
+                                    </div>
+
+                                    <!--================= SUBMIT BUTTON HERE ====================-->
+                                    <div>
+                                        <input type="submit" class="submit-btn contact-form-submit" name="submit" value="Submit">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
 
 
 
@@ -84,7 +128,7 @@
                 <img src="/media/imagesrec/images/{{img}}.jpg" class="card-img-top" alt="...">
                 <img src="/media/imagesrec/images/{{img}}_p.jpg" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <h5 class="card-title">{{pred}}</h5>
+                    <h3 class="card-title">{{pred}}</h3>
                     <p class="card-text"><form action = '/backend' method = 'POST'>
                             {% csrf_token %}
                         <label for="cars">If Mislabelled:</label>
@@ -137,7 +181,7 @@
 
 
             </div>
-            <button type="button" class="btn btn-warning " style="margin-top:20px;">Recalibration</button>
+            <button type="button" class="btn btn-warning " style="margin-top:20px;">Infer the Images </button>
         </div>
       </div>
     </section>
