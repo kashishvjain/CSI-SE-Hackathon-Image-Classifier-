@@ -12,6 +12,9 @@ import numpy as np
 import torch
 import torchvision
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+import time
 images_id=[]
 #from .model import *
 import torch
@@ -46,7 +49,7 @@ def backend(request):
     output = vgg16(images)
     print(output)
     probablities=torch.exp(output)/(torch.sum(torch.exp(output),1)).reshape(-1,1)
-    probablities=probablities.numpy()
+    probablities=probablities.detach().numpy()
     print(probablities)
     # convert output probabilities to predicted class
     _, preds_tensor = torch.max(output, 1)
@@ -56,13 +59,24 @@ def backend(request):
         prediction.append(classes[pred])
         print(classes[pred])
     img_directory=os.listdir(test_dir+'images')
-    print(prediction)
     img_with_labels={}
+    for img_direc,prob in zip(img_directory,probablities):
+        print("Hey man")
+        plotter(img_direc,prob,test_dir)
     for img,label in zip(img_directory,prediction):
-        img_with_labels[img]=label
+        img_with_labels[img[:-4]]=label
    # return render(request,"backend.html",{'predict':prediction,'tags':os.listdir(test_dir+'images') })
     return render(request,"backend.html",{'predict':img_with_labels})
 
+def plotter(img_direc,prob,test_dir):
+    plt.bar(classes,prob);
+    plt.xlabel('Classes')  
+    plt.ylabel('Relativistic Probablities')
+    path_prob= test_dir+'images/'+img_direc[:-4] + '_p.jpg'
+    print(path_prob)
+    plt.savefig(path_prob)
+    plt.cla()
+        
 def bulk(request):
     if request.method == "POST":
         my_file = request.FILES.get("file")
