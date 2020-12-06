@@ -7,7 +7,7 @@ from django.views.generic.edit import FormView
 from torchvision import datasets, models, transforms
 import torch
 from .forms import img
-from .model import *
+# from .model import *
 import torch
 from django.contrib.staticfiles.storage import staticfiles_storage
 
