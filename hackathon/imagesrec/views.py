@@ -26,22 +26,95 @@ url = staticfiles_storage.path('vgg_model2')
 vgg16=torch.load(url)
 classes = ['buildings', 'forest', 'glacier', 'mountain', 'sea','street']
 #print(model1)
+img_with_labels={}
+import shutil
 
+def delete():
+    folders=['media/imagesrec/images','media/imagesrec/train/forest','media/imagesrec/train/buildings','media/imagesrec/train/glacier',
+    'media/imagesrec/train/sea','media/imagesrec/train/street','media/imagesrec/train/mountain'] 
+    for folder in folders :
+        folder = folder 
+        for filename in os.listdir(folder): 
+            file_path = os.path.join(folder, filename) 
+            try: 
+                if os.path.isfile(file_path) or os.path.islink(file_path): 
+                    os.unlink(file_path) 
+                elif os.path.isdir(file_path):
+                     shutil.rmtree(file_path) 
+            except Exception as e:
+                print(e)
+    global img_with_labels
+    img_with_labels={}
 
 def index(request):
     return render(request, 'home.html')
 
+def training(request):
+    if request.method == "POST":
+        lr=float(request.POST['lr'])
+        batch_size = int(request.POST['bs'])
+        epochs=int(request.POST['ep'])
+        for image,label in img_with_labels.items():
+            shutil.copy('media/imagesrec/images/'+image+'.jpg', 'media/imagesrec/train/'+label)
+        train_dir ='media/imagesrec/train'
+        #print(len(os.listdir(tp_dir)))
+        # test_dir='imagesrec/images'
+        data_transform = transforms.Compose([transforms.RandomResizedCrop(224),
+                                        transforms.ToTensor()])
+        train_data = datasets.ImageFolder(train_dir, transform=data_transform)
+        import torch.optim as optim
+        from torch import nn
+        num_workers=0
+        train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,
+                                          num_workers=num_workers, shuffle=False)
+        # specify loss function (categorical cross-entropy)
+        criterion = nn.CrossEntropyLoss()
+        # specify optimizer (stochastic gradient descent) and learning rate = 0.001
+        optimizer = optim.SGD(vgg16.classifier.parameters(), lr=lr)
+        print_every=1
+        training_loss_list=[]
+        ## TODO complete epoch and training batch loops
+        def train(vgg16,train_loader,epochs=epochs,print_every=1):
+            steps=0
+            running_loss=0
+            for e in range(epochs):
+                vgg16.train()
+                for image,labels in train_loader:
+                    steps+=1
+                    optimizer.zero_grad()
+                    output=vgg16(image)
+                    loss=criterion(output,labels)
+                    loss.backward()
+                    optimizer.step()
+                    running_loss+=loss.item()
+                    if steps % print_every == 0:
+                        print("Epoch: {}/{}.. ".format(e+1, epochs),
+                            "Training Loss: {:.3f}.. ".format(running_loss/print_every))
+                        training_loss_list.append((running_loss/print_every))
+                        running_loss = 0
+            return training_loss_list  
+        loss_list=train(vgg16,train_loader,epochs,print_every)
+        delete()
+## These loops should update the classifier-weights of this model
+## And track (and print out) the training loss over time
+    return HttpResponse("He")
+
 def backend(request):
     global error_prediction
-
+    global img_with_labels
     if request.method == "POST":
         print('HII')
         print(request.POST['tag'])
         ind,val = request.POST['tag'].split(' ')
         print("PRINTING prediction")
-        error_prediction.append([ind,val])
-        print(error_prediction)
+        img_with_labels[ind]=val
+        # error_prediction.append([ind,val])
+        # print(error_prediction)
         return redirect("/backend")
+
+   
+    if len(img_with_labels) != 0:
+        return render(request,"backend.html",{'predict':img_with_labels})
 
     print("Here in backend")
     test_dir ='media/imagesrec/'
@@ -74,7 +147,7 @@ def backend(request):
         prediction.append(classes[pred])
         print(classes[pred])
     img_directory=os.listdir(test_dir+'images')
-    img_with_labels={}
+    
     # for img,label in zip(img_directory,prediction):
     #     img_with_labels[img[:-4]]=label
     for img_direc,prob in zip(img_directory,probablities):
@@ -106,6 +179,7 @@ def bulk(request):
         otherDetails.objects.create(image = my_file)
         return redirect("/bulk")
     else:
+        delete()
         form = img()
         return render(request, 'bulk.html')
 def redirection_backend(request):

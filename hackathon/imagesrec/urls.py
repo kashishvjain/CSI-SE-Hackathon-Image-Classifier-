@@ -25,6 +25,7 @@ urlpatterns = [
     path('backend',views.backend, name="backend"),
     path('bulk',views.bulk, name="bulk"),
     path('video',views.video, name="video"),
-    path('redirection',views.redirection_backend,name="red")
+    path('redirection',views.redirection_backend,name="red"),
+    path('training',views.training,name='Train')
     
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
