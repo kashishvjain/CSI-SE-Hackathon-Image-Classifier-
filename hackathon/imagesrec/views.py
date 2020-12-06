@@ -26,15 +26,20 @@ url = staticfiles_storage.path('vgg_model2')
 vgg16=torch.load(url)
 classes = ['buildings', 'forest', 'glacier', 'mountain', 'sea','street']
 #print(model1)
+
+
 def index(request):
     return render(request, 'home.html')
 
 def backend(request):
     global prediction
+    global counter1
     if request.method == "POST":
         print('HII')
         print(request.POST['tag'])
-        return redirect("/backend")
+
+        return render(request,"backend.html",{'predict':img_with_labels})
+
     print("Here in backend")
     test_dir ='media/imagesrec/'
     #print(len(os.listdir(tp_dir)))
@@ -74,6 +79,7 @@ def backend(request):
         img_with_labels[img[:-4]]=label
    # return render(request,"backend.html",{'predict':prediction,'tags':os.listdir(test_dir+'images') })
     return render(request,"backend.html",{'predict':img_with_labels})
+
 
 def plotter(img_direc,prob,test_dir):
     plt.bar(classes,prob);
