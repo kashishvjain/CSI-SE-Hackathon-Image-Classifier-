@@ -100,12 +100,18 @@
                                           <div class="fallback">
                                             <input name="file" type="file" multiple />
                                           </div>
+                            
+                                        </form>
+                                        <form action="/redirection" method="POST">
+                                            {% csrf_token %}
+                                        
+                                          <div style='padding-top:40px;'>
+                                            <input type="submit" class="submit-btn contact-form-submit" name="submit" value="submit">
+                                        </div>
+    
                                         </form>
                                     <!--================= SUBMIT BUTTON HERE ====================-->
-                                 <!--    <div style='padding-top:40px;'>
-                                        <input type="submit" class="submit-btn contact-form-submit" name="submit" value="submit">
-                                    </div> -->
-                                </div>
+                                    </div>
 <!--                             </form>
  -->                        </div>
 

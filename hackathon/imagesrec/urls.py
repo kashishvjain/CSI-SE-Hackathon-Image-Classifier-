@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('backend',views.backend, name="backend"),
     path('bulk',views.bulk, name="bulk"),
-    path('video',views.video, name="video")
+    path('video',views.video, name="video"),
+    path('redirection',views.redirection_backend,name="red")
     
-]
+]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
