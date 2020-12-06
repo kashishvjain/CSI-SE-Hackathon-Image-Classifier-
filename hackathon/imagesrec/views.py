@@ -13,11 +13,11 @@ import torch
 import torchvision
 import matplotlib.pyplot as plt
 import seaborn as sns
-counter1 = 1
+
 
 import time
 images_id=[]
-prediction = []
+error_prediction = []
 #from .model import *
 import torch
 from django.conf import settings
@@ -32,12 +32,15 @@ def index(request):
     return render(request, 'home.html')
 
 def backend(request):
-    global prediction
-    global counter1
+    global error_prediction
+
     if request.method == "POST":
         print('HII')
         print(request.POST['tag'])
-
+        ind,val = request.POST['tag'].split(' ')
+        print("PRINTING prediction")
+        error_prediction.append([ind,val])
+        print(error_prediction)
         return redirect("/backend")
 
     print("Here in backend")
@@ -50,7 +53,7 @@ def backend(request):
     batch_size = len(os.listdir(test_dir+'images'))
 #earlier was 20
     num_workers=0
-
+    prediction = []
 # prepare data loaders
     test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,
                                           num_workers=num_workers, shuffle=False)
