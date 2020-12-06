@@ -38,7 +38,7 @@ def backend(request):
         print('HII')
         print(request.POST['tag'])
 
-        return render(request,"backend.html",{'predict':img_with_labels})
+        return redirect("/backend")
 
     print("Here in backend")
     test_dir ='media/imagesrec/'
@@ -72,11 +72,17 @@ def backend(request):
         print(classes[pred])
     img_directory=os.listdir(test_dir+'images')
     img_with_labels={}
+    # for img,label in zip(img_directory,prediction):
+    #     img_with_labels[img[:-4]]=label
     for img_direc,prob in zip(img_directory,probablities):
         print("Hey man")
-        plotter(img_direc,prob,test_dir)
+        if (not os.path.exists(test_dir+'images/' + img_direc[:-4] + '_p.jpg')) and (img_direc[-5]!='p'):
+            plotter(img_direc,prob,test_dir)
+
+
     for img,label in zip(img_directory,prediction):
-        img_with_labels[img[:-4]]=label
+        if len(img)<5 or img[-5]!='p':
+            img_with_labels[img[:-4]]=label
    # return render(request,"backend.html",{'predict':prediction,'tags':os.listdir(test_dir+'images') })
     return render(request,"backend.html",{'predict':img_with_labels})
 
