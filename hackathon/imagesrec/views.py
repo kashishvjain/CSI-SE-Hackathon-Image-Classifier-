@@ -47,6 +47,7 @@ def delete():
     img_with_labels={}
 
 def index(request):
+    delete()
     return render(request, 'home.html')
 
 def training(request):
@@ -94,10 +95,17 @@ def training(request):
                         running_loss = 0
             return training_loss_list  
         loss_list=train(vgg16,train_loader,epochs,print_every)
-        delete()
+        plt.plot(loss_list);
+        plt.xlabel('epochs')
+        plt.ylabel('Losses')
+        path_prob= 'media/imagesrec/'+'images/'+'graph.jpg'
+        print(path_prob)
+        plt.savefig(path_prob)
+        plt.cla()
+        plt.close()
 ## These loops should update the classifier-weights of this model
 ## And track (and print out) the training loss over time
-    return HttpResponse("He")
+    return render(request,"train.html")
 
 def backend(request):
     global error_prediction
@@ -179,7 +187,6 @@ def bulk(request):
         otherDetails.objects.create(image = my_file)
         return redirect("/bulk")
     else:
-        delete()
         form = img()
         return render(request, 'bulk.html')
 def redirection_backend(request):
