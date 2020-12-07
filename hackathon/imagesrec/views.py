@@ -13,6 +13,8 @@ import torch
 import torchvision
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
 import time
 images_id=[]
 error_prediction = []
@@ -29,16 +31,16 @@ import shutil
 
 def delete():
     folders=['media/imagesrec/images','media/imagesrec/train/forest','media/imagesrec/train/buildings','media/imagesrec/train/glacier',
-    'media/imagesrec/train/sea','media/imagesrec/train/street','media/imagesrec/train/mountain'] 
+    'media/imagesrec/train/sea','media/imagesrec/train/street','media/imagesrec/train/mountain']
     for folder in folders :
-        folder = folder 
-        for filename in os.listdir(folder): 
-            file_path = os.path.join(folder, filename) 
-            try: 
-                if os.path.isfile(file_path) or os.path.islink(file_path): 
-                    os.unlink(file_path) 
+        folder = folder
+        for filename in os.listdir(folder):
+            file_path = os.path.join(folder, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
                 elif os.path.isdir(file_path):
-                     shutil.rmtree(file_path) 
+                     shutil.rmtree(file_path)
             except Exception as e:
                 print(e)
     global img_with_labels
@@ -91,12 +93,13 @@ def training(request):
                             "Training Loss: {:.3f}.. ".format(running_loss/print_every))
                         training_loss_list.append((running_loss/print_every))
                         running_loss = 0
-            return training_loss_list  
+            return training_loss_list
         loss_list=train(vgg16,train_loader,epochs,print_every)
         plt.plot(loss_list);
         plt.xlabel('epochs')
         plt.ylabel('Losses')
         path_prob= 'media/imagesrec/'+'images/'+'graph.jpg'
+        print(path_prob)
         plt.savefig(path_prob)
         plt.cla()
         plt.close()
@@ -108,17 +111,20 @@ def backend(request):
     global error_prediction
     global img_with_labels
     if request.method == "POST":
+        print('HII')
         print(request.POST['tag'])
         ind,val = request.POST['tag'].split(' ')
+        print("PRINTING prediction")
         img_with_labels[ind]=val
         # error_prediction.append([ind,val])
         # print(error_prediction)
         return redirect("/backend")
 
-   
+
     if len(img_with_labels) != 0:
         return render(request,"backend.html",{'predict':img_with_labels})
 
+    print("Here in backend")
     test_dir ='media/imagesrec/'
     #print(len(os.listdir(tp_dir)))
     # test_dir='imagesrec/images'
@@ -137,8 +143,10 @@ def backend(request):
     images.numpy()
     # get sample outputs
     output = vgg16(images)
+    print(output)
     probablities=torch.exp(output)/(torch.sum(torch.exp(output),1)).reshape(-1,1)
     probablities=probablities.detach().numpy()
+    print(probablities)
     # convert output probabilities to predicted class
     _, preds_tensor = torch.max(output, 1)
     preds = np.squeeze(preds_tensor.numpy())
@@ -147,10 +155,11 @@ def backend(request):
         prediction.append(classes[pred])
         print(classes[pred])
     img_directory=os.listdir(test_dir+'images')
-    
+
     # for img,label in zip(img_directory,prediction):
     #     img_with_labels[img[:-4]]=label
     for img_direc,prob in zip(img_directory,probablities):
+        print("Hey man")
         if (not os.path.exists(test_dir+'images/' + img_direc[:-4] + '_p.jpg')) and (img_direc[-5]!='p'):
             plotter(img_direc,prob,test_dir)
 
@@ -167,6 +176,7 @@ def plotter(img_direc,prob,test_dir):
     plt.xlabel('Classes')
     plt.ylabel('Relativistic Probablities')
     path_prob= test_dir+'images/'+img_direc[:-4] + '_p.jpg'
+    print(path_prob)
     plt.savefig(path_prob)
     plt.cla()
     plt.close()
@@ -185,6 +195,7 @@ def redirection_backend(request):
 def video(request):
     if request.method == "POST":
         form = img(request.POST, request.FILES)
+        print(form)
         if form.is_valid():
             object = form.save(commit=False)
             object.save()
@@ -192,9 +203,13 @@ def video(request):
             messages.success(request, "Your entry has been noted")
             return redirect("/backend")
         else:
+            print("(**********")
+            print("Hi")
+            print("*******")
             return redirect("/")
 
 
     else:
         form = img()
+        print("uuuuuuuuu")
         return render(request, 'video.html', {"form": form})

@@ -56,7 +56,7 @@
                         <li class="menu-fs menu-underline"><a href="/" class="pagescroll">HOME</a>
                         </li>
                         <li class="menu-fs menu-underline"><a href="/bulk" class="pagescroll">Images in bulk</a>
-                        <li class="menu-fs menu-underline"><a href="/video" class="pagescroll"> Videos </a>
+                        <li class="menu-fs menu-underline"><a href="/video" class="pagescroll"> Create your neural network </a>
                     </ul>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                             <form action="/single" method="POST" enctype= multipart/form-data>{% csrf_token %}
                                 <div class="clearfix">
                                     <div class="header-form-heading-bg">
-                                        <h4 class="center">UPLOAD VIDEO</h4>
+                                        <h4 class="center">Create Neural Network</h4>
                                     </div>
                                     <div class="header-contact-bg-pad">
                                         <div>
@@ -96,9 +96,9 @@
                                         <div style='padding-top:40px;'>
                                             <button style="height: 40px;" class="submit-btn" type="submit">Submit</button>
                                         </div>
-                                    </
+
                                 </div>
-                
+
                             </form>
                         </div>
 
@@ -109,40 +109,88 @@
         </div>
     </div>
     <!--================================= HEADER-DEFAULT END =============================================-->
+    <!-- <div id="dynamic_form">
+  <div class="form-control">
+    <input type="text" name="p_name" id="p_name" placeholder="Enter Product Name">
+  </div>
+  <div class="form-control">
+    <input type="text" name="quantity" id="quantity" placeholder="Enter Product Quantity">
+  </div>
+  <div class="form-control">
+    <textarea name="remarks" placeholder="Enter Remarks" id="remarks"></textarea>
+  </div>
+  <div class="button-group">
+    <a href="javascript:void(0)" class="btn btn-primary" id="plus">Add More</a>
+    <a href="javascript:void(0)" class="btn btn-danger" id="minus">Remove</a>
+  </div>
+</div> -->
 
 
-   
+
     <!--================================= WHO WE ARE START =============================================-->
         <!-- JQUERY LIBRARY -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/jquery.min.js' %}"></script>
 
         <!-- BOOTSTRAP -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/bootstrap.min.js' %}"></script>
-    
+
         <!-- VALIDATION  -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/validate/jquery.validate.min.js' %}"></script>
-    
+
         <!-- OWL-CAROUSEL JS FILES -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/owl-carousel/owl.carousel.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/owl-carousel/owl-slider.js' %}"></script>
-    
+
         <!-- COUNTER JS FILES -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/counter/counter-lib.js' %}"></script>
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/counter/jquery.counterup.min.js' %}"></script>
-    
+
         <!-- PHONE_NUMBER VALIDATION JS -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/phone_number/phone_number.js' %}"></script>
-    
+
         <!-- SUBSCRIBE MAILCHIMP -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/subscribe/subscribe_validate.js' %}"></script>
-    
+
         <!-- VIDEO -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/video/video.js' %}"></script>
-    
+
         <!-- CUSTOM -->
         <script type="text/javascript" src="{% static 'imagesrec/js/custom/custom.js' %}"></script>
+        <script type="text/javascript" src="{% static 'imagesrec/js/dynamic-form.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous">
+</script>
+
+<script type="text/javascript">
+// dynamicForm(selectedTarget, plusSelector, minusSelector, options)
+var dynamic_form =  $("#dynamic_form").dynamicForm("#dynamic_form","#plus", "#minus", {
+  // options here
+});
+var dynamic_form =  $("#dynamic_form").dynamicForm("#dynamic_form","#plus", "#minus", {
+
+    // the maximum number of form fields
+    limit: 10,
+
+    // prefix
+    formPrefix:
+
+    // normalize all fields
+    // ideal for server side dulication
+    normalizeFullForm: false,
+
+    // color effects
+    createColor: '',
+    removeColor： '',
+    duration: 3000,
+
+    // JSON data which will prefill the form
+    data: {}
+
+});
+</script>
     </body>
-    
-    
+
+
     <!-- Mirrored from www.evethemes.com/demo/st/fitness/preview/demo-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Aug 2020 10:04:52 GMT -->
     </html>
