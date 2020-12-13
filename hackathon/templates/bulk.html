@@ -63,7 +63,7 @@
                         <li class="menu-fs menu-underline"><a href="/bulk" class="pagescroll">Images in bulk</a>
                         </li>
 
-                        <li class="menu-fs menu-underline"><a href="/video" class="pagescroll"> Videos </a>
+                        <li class="menu-fs menu-underline"><a href="/video" class="pagescroll"> Create your neural network </a>
                     </ul>
                 </div>
             </div>
@@ -100,12 +100,18 @@
                                           <div class="fallback">
                                             <input name="file" type="file" multiple />
                                           </div>
+
+                                        </form>
+                                        <form action="/redirection" method="POST">
+                                            {% csrf_token %}
+
+                                          <div style='padding-top:40px;'>
+                                            <input type="submit" class="submit-btn contact-form-submit" name="submit" value="submit">
+                                        </div>
+
                                         </form>
                                     <!--================= SUBMIT BUTTON HERE ====================-->
-                                 <!--    <div style='padding-top:40px;'>
-                                        <input type="submit" class="submit-btn contact-form-submit" name="submit" value="submit">
-                                    </div> -->
-                                </div>
+                                    </div>
 <!--                             </form>
  -->                        </div>
 
@@ -118,38 +124,38 @@
     <!--================================= HEADER-DEFAULT END =============================================-->
 
 
-   
+
     <!--================================= WHO WE ARE START =============================================-->
         <!-- JQUERY LIBRARY -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/jquery.min.js' %}"></script>
 
         <!-- BOOTSTRAP -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/bootstrap.min.js' %}"></script>
-    
+
         <!-- VALIDATION  -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/validate/jquery.validate.min.js' %}"></script>
-    
+
         <!-- OWL-CAROUSEL JS FILES -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/owl-carousel/owl.carousel.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/owl-carousel/owl-slider.js' %}"></script>
-    
+
         <!-- COUNTER JS FILES -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/counter/counter-lib.js' %}"></script>
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/counter/jquery.counterup.min.js' %}"></script>
-    
+
         <!-- PHONE_NUMBER VALIDATION JS -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/phone_number/phone_number.js' %}"></script>
-    
+
         <!-- SUBSCRIBE MAILCHIMP -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/subscribe/subscribe_validate.js' %}"></script>
-    
+
         <!-- VIDEO -->
         <script type="text/javascript" src="{% static 'imagesrec/js/vendor/video/video.js' %}"></script>
-    
+
         <!-- CUSTOM -->
         <script type="text/javascript" src="{% static 'imagesrec/js/custom/custom.js' %}"></script>
     </body>
-    
-    
+
+
     <!-- Mirrored from www.evethemes.com/demo/st/fitness/preview/demo-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Aug 2020 10:04:52 GMT -->
     </html>
